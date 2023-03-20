@@ -93,7 +93,7 @@ def handle_bullets(bullets0, bullets1, rect0, rect1):
             pygame.event.post(pygame.event.Event(NAUT_HIT))
             bullets1.remove(bullet)
 
-def draw_winner(text, bullets_0, bullets_1):
+def draw_winner(text):
     if text == "Dogzilla Wins!":
         color = PEARLY
     else:
@@ -102,12 +102,9 @@ def draw_winner(text, bullets_0, bullets_1):
     WIN.blit(draw_text, (WIDTH / 2 - draw_text.get_width() / 2, HEIGHT / 2 - draw_text.get_height() / 2))
     pygame.display.update()
     pygame.time.delay(2500)
-    for bullet in bullets_0:
-        bullets_0.remove(bullet)
-    for bullet in bullets_1:
-        bullets_1.remove(bullet)
 
 def main():
+
     rect0 = pygame.Rect(CENTR[0] * 0.5 - DOGZILLA_SIZE[0] / 2, CENTR[1] - DOGZILLA_SIZE[1] / 2, DOGZILLA_SIZE[0], DOGZILLA_SIZE[1])
     rect1 = pygame.Rect(CENTR[0] * 1.5 - DOGZILLA_SIZE[0] / 2, CENTR[1] - DOGZILLA_SIZE[1] / 2, DOGZILLA_SIZE[0], DOGZILLA_SIZE[1])
     
@@ -149,7 +146,7 @@ def main():
             winner_text = "Edgy Dogzilla Wins!"
 
         if winner_text != "":
-            draw_winner(winner_text, bullets_0, bullets_1)
+            draw_winner(winner_text)
             break
 
         keys_pressed = pygame.key.get_pressed()
