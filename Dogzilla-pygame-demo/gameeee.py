@@ -67,29 +67,33 @@ def dogzilla_0_movement(keys_pressed, rect):
 
 def dogzilla_1_movement(keys_pressed, rect):
         #anti-Nautilus motion
-        if keys_pressed[pygame.K_LEFT] and rect.x - VEL > CENTR[0]: #< key
+        if keys_pressed[pygame.K_j] and rect.x - VEL > CENTR[0]: #j key
             rect.x -= VEL
-        if keys_pressed[pygame.K_RIGHT] and rect.x + DOGZILLA_SIZE[0] + VEL < WIDTH: #> key
+        if keys_pressed[pygame.K_l] and rect.x + DOGZILLA_SIZE[0] + VEL < WIDTH: #l key
             rect.x += VEL
-        if keys_pressed[pygame.K_UP] and rect.y + 35 - VEL > 0: #^ key
+        if keys_pressed[pygame.K_i] and rect.y + 35 - VEL > 0: #i key
             rect.y -= VEL
-        if keys_pressed[pygame.K_DOWN] and rect.y + 225 + VEL < HEIGHT: #v key
+        if keys_pressed[pygame.K_k] and rect.y + 225 + VEL < HEIGHT: #k key
             rect.y += VEL
 
 def handle_bullets(bullets0, bullets1, rect0, rect1):
     for bullet in bullets0:
         bullet.x += BULLET_VEL
+        if bullet.x >= WIDTH:
+            bullets0.remove(bullet)
         if rect1.colliderect(bullet):
             pygame.event.post(pygame.event.Event(ANTI_HIT))
             bullets0.remove(bullet)
 
     for bullet in bullets1:
         bullet.x -= BULLET_VEL
+        if bullet.x <= 0:
+            bullets1.remove(bullet)
         if rect0.colliderect(bullet):
             pygame.event.post(pygame.event.Event(NAUT_HIT))
             bullets1.remove(bullet)
 
-def draw_winner(text):
+def draw_winner(text, bullets_0, bullets_1):
     if text == "Dogzilla Wins!":
         color = PEARLY
     else:
@@ -98,6 +102,10 @@ def draw_winner(text):
     WIN.blit(draw_text, (WIDTH / 2 - draw_text.get_width() / 2, HEIGHT / 2 - draw_text.get_height() / 2))
     pygame.display.update()
     pygame.time.delay(2500)
+    for bullet in bullets_0:
+        bullets_0.remove(bullet)
+    for bullet in bullets_1:
+        bullets_1.remove(bullet)
 
 def main():
     rect0 = pygame.Rect(CENTR[0] * 0.5 - DOGZILLA_SIZE[0] / 2, CENTR[1] - DOGZILLA_SIZE[1] / 2, DOGZILLA_SIZE[0], DOGZILLA_SIZE[1])
@@ -141,7 +149,7 @@ def main():
             winner_text = "Edgy Dogzilla Wins!"
 
         if winner_text != "":
-            draw_winner(winner_text)
+            draw_winner(winner_text, bullets_0, bullets_1)
             break
 
         keys_pressed = pygame.key.get_pressed()
