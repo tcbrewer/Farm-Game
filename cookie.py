@@ -7,6 +7,7 @@ class Game:
         self.cookie_per_click = 1
         self.cookie = pygame.Rect(400 - 150, 300 - 150, 300, 300)
         self.cookie_color = "#CD853F"
+        self.cookie_update = 1
         self.clicked = False
 
         self.upgradeBtn = pygame.Rect(10, 50, 185, 75)
@@ -15,7 +16,7 @@ class Game:
         self.game_font = pygame.font.Font(None, 28)
 
     def upgrade(self):
-        self.upgrade1_description = self.game_font.render(f"+{self.cookie_per_click} cookie per click", True, "#000000")
+        self.upgrade1_description = self.game_font.render(f"+{self.cookie_update} cookie per click", True, "#000000")
         self.display_cost = text_font.render(f"Cost: {str(self.upgrade1_cost)}", True, "#000000")
 
         pygame.draw.rect(screen, "#488ebd", self.upgradeBtn, border_radius=15)
@@ -25,7 +26,6 @@ class Game:
     def draw_score(self):
         self.display_cookies = text_font.render(f"Cookies: {str(self.cookies)}", True, "#000000")
         screen.blit(self.display_cookies, (0,500))
-
 
 
     def click_button(self):
@@ -43,17 +43,23 @@ class Game:
                 if self.cookies >= self.upgrade1_cost:
                     self.cookies -= self.upgrade1_cost
                     self.upgrade1_cost *= 3
-                    self.cookie_per_click += 1
+                    self.cookie_per_click += self.cookie_update
+                    self.cookie_update += 1
         
         #pygame.draw.rect(screen, self.cookie_color, self.cookie, border_radius=150)
         image = pygame.image.load("cookie.png").convert()
         newimage = pygame.transform.scale(image, (300,300))
         screen.blit(newimage, (250,150))
 
+    def draw_cookies_per(self):
+        self.display_cookie_per = text_font.render(f"Cookies per click: {str(self.cookie_per_click)}", True, '#000000')
+        screen.blit(self.display_cookie_per, (0,550))
+
     def render(self):
         self.click_button()
         self.draw_score()
         self.upgrade()
+        self.draw_cookies_per()
 
 pygame.init()
 
