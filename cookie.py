@@ -26,6 +26,8 @@ class Game:
         self.display_cookies = text_font.render(f"Cookies: {str(self.cookies)}", True, "#000000")
         screen.blit(self.display_cookies, (0,500))
 
+
+
     def click_button(self):
         self.mouse_pos = pygame.mouse.get_pos()
         if self.cookie.collidepoint(self.mouse_pos):
@@ -43,7 +45,10 @@ class Game:
                     self.upgrade1_cost *= 3
                     self.cookie_per_click += 1
         
-        pygame.draw.rect(screen, self.cookie_color, self.cookie, border_radius=150)
+        #pygame.draw.rect(screen, self.cookie_color, self.cookie, border_radius=150)
+        image = pygame.image.load("cookie.png").convert()
+        newimage = pygame.transform.scale(image, (300,300))
+        screen.blit(newimage, (250,150))
 
     def render(self):
         self.click_button()
